@@ -2,9 +2,11 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 
+//routes
 const userRoutes = require("./routes/user");
 const collectionRoutes = require("./routes/collection");
 
+// --------------- mongoDB connection --------------------
 const uri = process.env.MONGODB_URI;
 
 const clientOptions = {
@@ -15,6 +17,9 @@ mongoose
   .connect(uri, clientOptions)
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
+// ----------------------------------------------------------
+
+// ----------------------- cors header config ------------------
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -28,8 +33,12 @@ app.use((req, res, next) => {
   );
   next();
 });
-app.use(express.json()); // Pour permettre la gestion des requêtes JSON
-app.use(express.urlencoded({ extended: true }));
+//----------------------------------------------
+
+// // Middleware to parse the body of JSON requests
+app.use(express.json()); // Transforms JSON data from requests into JavaScript objects accessible in req.body
+app.use(express.urlencoded({ extended: true })); // Handles data of type application/x-www-form-urlencoded
+
 app.use("/api/auth", userRoutes);
 
 module.exports = app;

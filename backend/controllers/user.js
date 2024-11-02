@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 exports.signup = (req, res, next) => {
+  //hash user password with a salt of 10
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
@@ -10,6 +11,7 @@ exports.signup = (req, res, next) => {
         username: req.body.username,
         password: hash,
       });
+      // create user in database
       user
         .save()
         .then(() => res.status(201).json({ message: "User Created" })) // Message explicite en cas de succès
