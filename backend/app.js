@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+
 const userRoutes = require("./routes/user");
 const collectionRoutes = require("./routes/collection");
 
@@ -27,5 +28,8 @@ app.use((req, res, next) => {
   );
   next();
 });
+app.use(express.json()); // Pour permettre la gestion des requêtes JSON
+app.use(express.urlencoded({ extended: true }));
+app.use("/api/auth", userRoutes);
 
 module.exports = app;
