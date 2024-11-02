@@ -1,10 +1,21 @@
 import "./App.css";
 import Nav from "./components/Nav";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 function App() {
   return (
     <>
-      <Nav />
+      <BrowserRouter>
+        <Nav />
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/register" element={<Signup />}></Route>
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
