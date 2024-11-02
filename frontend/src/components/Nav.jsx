@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Nav = () => {
   return (
@@ -7,8 +8,8 @@ const Nav = () => {
         <span>Logo</span>
       </div>
       <div className="flex gap-3">
-        <a href="#">Connexion</a>
-        <a href="#">Inscription</a>
+        <Link to="/login">Connexion</Link>
+        <Link to="/signup">Inscription</Link>
       </div>
     </nav>
   );
