@@ -1,27 +1,53 @@
 require("dotenv").config();
-const express = require("express");
-const app = express();
-const mongoose = require("mongoose");
 
-const uri = process.env.MONGODB_URI;
+const http = require("http");
+const app = require("./app");
 
-const clientOptions = {
-  serverApi: { version: "1", strict: true, deprecationErrors: true },
+const normalizePort = (val) => {
+  const port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    return val;
+  }
+  if (port >= 0) {
+    return port;
+  }
+  return false;
 };
 
-async function run() {
-  try {
-    // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
-    await mongoose.connect(uri, clientOptions);
-    await mongoose.connection.db.admin().command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await mongoose.disconnect();
-  }
-}
-run().catch(console.dir);
+const port = normalizePort(process.env.PORT || "4000");
 
-app.listen(3000);
+app.set("port", port);
+
+const errorHandler = (error) => {
+  if (error.syscall !== "listen") {
+    throw error;
+  }
+  const address = server.address();
+  const bind =
+    typeof address === "string" ? `pipe ${address}` : `port: ${port}`;
+  switch (error.code) {
+    case "EACCES":
+      console.error(`${bind} requires elevated privileges.`);
+      process.exit(1);
+      break;
+    case "EADDRINUSE":
+      console.error(`${bind} is already in use.`);
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+};
+
+const server = http.createServer(app);
+
+server.on("error", errorHandler);
+
+server.on("listening", () => {
+  const address = server.address();
+  const bind = typeof address === "string" ? `pipe ${address}` : `port ${port}`;
+  console.log(`Listening on ${bind}`);
+});
+
+server.listen(port);
