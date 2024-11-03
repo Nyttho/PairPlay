@@ -2,12 +2,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
-const cookieOptions = {
-  httpOnly: true, //js can't reach cookie client side
-  secure: true,
-  maxAge: 24 * 60 * 60 * 1000, // 24h lifetime
-};
-
 exports.signup = (req, res, next) => {
   //hash user password with a salt of 10
   bcrypt
