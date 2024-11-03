@@ -22,7 +22,8 @@ mongoose
 // ----------------------- cors header config ------------------
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173"); // Remplacez par l'URL de votre frontend
+  res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
@@ -33,12 +34,29 @@ app.use((req, res, next) => {
   );
   next();
 });
-//----------------------------------------------
 
-// // Middleware to parse the body of JSON requests
-app.use(express.json()); // Transforms JSON data from requests into JavaScript objects accessible in req.body
-app.use(express.urlencoded({ extended: true })); // Handles data of type application/x-www-form-urlencoded
+// Gérer les requêtes OPTIONS
+app.options("*", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+  );
+  res.sendStatus(204); // 204 No Content
+});
+
+// ----------------------------------------------
+
+// Middleware to parse the body of JSON requests
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", userRoutes);
+// Ajoutez ici d'autres routes si nécessaire
 
 module.exports = app;

@@ -1,22 +1,22 @@
 import "./App.css";
-import Nav from "./components/Nav";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Nav from "./components/Nav";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import DashBoard from "./pages/dashBoard";
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <Nav />
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/register" element={<Signup />}></Route>
-        </Routes>
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <Nav />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Signup />} />
+        <Route path="/dashboard" element={<DashBoard />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
