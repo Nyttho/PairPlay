@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 
 //routes
 const userRoutes = require("./routes/user");
@@ -18,6 +19,8 @@ mongoose
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
 // ----------------------------------------------------------
+
+app.use(cookieParser());
 
 // ----------------------- cors header config ------------------
 
@@ -57,6 +60,5 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", userRoutes);
-// Ajoutez ici d'autres routes si nécessaire
 
 module.exports = app;

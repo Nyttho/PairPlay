@@ -71,3 +71,16 @@ exports.login = (req, res, next) => {
     })
     .catch((error) => res.status(500).json({ error }));
 };
+
+exports.checkAuth = (req, res, next) => {
+  User.findById(req.userId)
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({ message: "Utilisateur non trouvé" });
+      }
+      res
+        .status(200)
+        .json({ message: "Utilisateur authentifié", username: user.username });
+    })
+    .catch((error) => res.status(500).json({ error }));
+};
