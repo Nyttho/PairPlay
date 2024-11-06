@@ -3,30 +3,53 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 exports.signup = (req, res, next) => {
-  //hash user password with a salt of 10
-  bcrypt
-    .hash(req.body.password, 10)
-    .then((hash) => {
-      const user = new User({
-        username: req.body.username,
-        password: hash,
-      });
-      // create user in database
-      user
-        .save()
-        .then(() => res.status(201).json({ message: "User Created" })) // Message explicite en cas de succès
+  const { username, password } = req.body;
+  // Vérifier si le nom d'utilisateur existe déjà
+  User.findOne({ username })
+    .then((existingUser) => {
+      if (existingUser) {
+        // Si un utilisateur avec ce nom existe déjà, renvoyer une erreur
+        return res
+          .status(400)
+          .json({ message: "Ce nom d'utilisateur est déjà pris." });
+      }
+
+      // Si le nom d'utilisateur est disponible, procéder au hachage du mot de passe
+      bcrypt
+        .hash(password, 10)
+        .then((hash) => {
+          const user = new User({
+            username: username,
+            password: hash,
+          });
+
+          // Enregistrer l'utilisateur dans la base de données
+          user
+            .save()
+            .then(() => {
+              res.status(201).json({ message: "Utilisateur créé avec succès" });
+            })
+            .catch((error) => {
+              console.error(
+                "Erreur lors de la sauvegarde de l'utilisateur :",
+                error
+              );
+              res.status(500).json({ error: error.message });
+            });
+        })
         .catch((error) => {
-          res.status(400).json({ error: error.message }); // Renvoie l'erreur complète
+          console.error("Erreur lors du hachage du mot de passe :", error);
+          res.status(500).json({ message: "Erreur interne du serveur." });
         });
     })
     .catch((error) => {
-      res.status(500).json({ message: error.message });
+      console.error("Erreur lors de la vérification de l'utilisateur :", error);
+      res.status(500).json({ message: "Erreur interne du serveur." });
     });
 };
 
 exports.login = (req, res, next) => {
   const { username, password } = req.body;
-
   User.findOne({ username })
     .then((user) => {
       if (!user) {

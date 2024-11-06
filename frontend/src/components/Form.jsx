@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import LockIcon from "./LockIcon";
+import UserIcon from "./UserIcon";
 
 const Form = ({ actionType, btnName }) => {
   const [username, setUsername] = useState("");
@@ -9,12 +11,19 @@ const Form = ({ actionType, btnName }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Vérifier que les champs ne sont pas vides
+    if (!username || !password) {
+      console.error("Le nom d'utilisateur ou le mot de passe est vide.");
+      return;
+    }
+
+    console.log(username, password);
     const response = await fetch(
       `http://localhost:4000/api/auth/${actionType}`,
       {
         method: "POST",
         headers: {
-          "content-Type": "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ username, password }),
         credentials: "include",
@@ -31,34 +40,40 @@ const Form = ({ actionType, btnName }) => {
   };
 
   return (
-    <div className="max-width-md mx-auto">
-      <form
-        className="border-black border-2 p-5 w-full divide-y-2"
-        onSubmit={handleSubmit}
-      >
-        <div className="flex flex-col gap-3">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            placeholder="username"
-            id="username"
-            onChange={(e) => setUsername(e.target.value)}
-          />
+    <div className="w-1/3">
+      <form onSubmit={handleSubmit}>
+        <div className="flex flex-col gap-5">
+          <div className="flex flex-col relative">
+            <UserIcon />
+            <input
+              className="py-4 pl-12 bg-slate-300/[0.6] placeholder-white outline-none focus:bg-slate-200 focus:placeholder-slate-800 transition-all duration-600"
+              type="text"
+              placeholder="username"
+              id="username"
+              name="username"
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+          <div className="flex flex-col relative">
+            <LockIcon />
+            <input
+              className="py-4 pl-12 bg-slate-300/[0.6] placeholder-white outline-none focus:bg-slate-200 focus:placeholder-slate-800 transition-all duration-600"
+              type="password"
+              id="password"
+              name="password"
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="password"
+            />
+          </div>
         </div>
-        <div className="flex flex-col">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
+        <div className="mt-7 w-full">
+          <button
+            className="bg-slate-400/90 text-white rounded-full p-3 block mx-auto uppercase text-lg hover:bg-blue-500 w-full hover:bg-slate-300/80"
+            type="submit"
+          >
+            {btnName}
+          </button>
         </div>
-        <button
-          className="bg-blue-500 text-white rounded-md px-2 py-1"
-          type="submit"
-        >
-          {btnName}
-        </button>
       </form>
     </div>
   );
