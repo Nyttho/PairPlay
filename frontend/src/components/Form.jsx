@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import LockIcon from "./LockIcon";
-import UserIcon from "./UserIcon";
+import LockIcon from "./icons/LockIcon";
+import UserIcon from "./icons/UserIcon";
 
 const Form = ({ actionType, btnName }) => {
   const [username, setUsername] = useState("");
@@ -40,7 +40,7 @@ const Form = ({ actionType, btnName }) => {
   };
 
   return (
-    <div className="w-1/3">
+    <div className="w-full">
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-5">
           <div className="flex flex-col relative">
