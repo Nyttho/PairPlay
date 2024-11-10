@@ -1,43 +1,50 @@
 import React from "react";
 import Card from "./Card";
 
-const HomeDescription = ({ card1, card2 }) => {
+const HomeDescription = () => {
   return (
-    <div className="mt-5">
-      <h2 className="text-6xl text-center my-5">Concept</h2>
-      <div className="flex justify-between items-center my-10  w-2/3 mx-auto">
-        <Card element={card1} />
-        <div className="w-1/3 px-8 text-xl">
+    <div className="mt-12 w-5/6 mx-auto">
+      <h2 className="text-5xl font-bold">Comment ça marche ?</h2>
+      <div className="flex gap-20 my-10">
+        <div className="flex flex-col flex-1 gap-5">
+          <h3 className="text-7xl text-numbers font-bold">1</h3>
+
+          <p className="font-bold">Sélectionnez un thème</p>
+          <hr className="border-numbers" />
           <p>
-            Vous avez des choix à faire, et c’est l’occasion parfaite de tester
-            vos préférences avec notre système de comparaison par paires.
-          </p>
-          <p className="mt-5">
-            Sur Pair Play, vous choisissez entre deux options à chaque tour,
-            jusqu'à ce qu’il ne reste plus qu’un gagnant : votre favori ultime !
+            Choisissez un sujet parmis ceux disponnible, comme vos plats
+            préférés, vos films ou encore vos personnages de jeux vidéos
           </p>
         </div>
-        <Card element={card2} />
-      </div>
-      <div className="flex flex-col items-center my-10">
-        <h3 className="text-5xl">Comment ça marche ?</h3>
-        <ol className="list-decimal flex flex-col gap-3 my-10 text-lg font-medium">
-          <li>
-            <span className="font-bold">Sélectionnez un thème</span> parmi ceux
-            disponibles (comme vos plats préférés, vos films, ou même vos
-            personnages de jeu vidéo).
-          </li>
-          <li>
-            <span className="font-bold">Comparez des éléments :</span> à chaque
-            tour, deux options s’affichent. Choisissez celle qui vous attire le
-            plus.
-          </li>
-          <li>
-            <span className="font-bold">Élimination progressive :</span> en
-            quelques tours, les options sont éliminées l'une après l'autre
+        <div className="flex flex-col flex-1 gap-5">
+          <h3 className="text-7xl text-numbers font-bold">2</h3>
+
+          <p className="font-bold">Comparez des éléments</p>
+          <hr className="border-numbers" />
+          <p>
+            à chaque tour, deux options s’affichent. Choisissez celle qui vous
+            attire le plus.
+          </p>
+        </div>
+        <div className="flex flex-col flex-1 gap-5">
+          <h3 className="text-7xl text-numbers font-bold">3</h3>
+
+          <p className="font-bold">Élimination progressive</p>
+          <hr className="border-numbers" />
+          <p>
+            en quelques tours, les options sont éliminées l'une après l'autre
             jusqu’à ce qu'il n'en reste qu'une.
-          </li>
-        </ol>
+          </p>
+        </div>
+      </div>
+      <div className="my-20 text-center">
+        <h2 className="text-4xl">Prêt à jouer ?</h2>
+        <p className="mt-5">
+          <a href="/signup" className="underline text-numbers">
+            Créez un compte
+          </a>{" "}
+          et découvrez quel genre de personne vous êtes !
+        </p>
       </div>
     </div>
   );
